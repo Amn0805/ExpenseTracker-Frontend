@@ -1,8 +1,27 @@
 # ExpenseTracker — Frontend
 
-A React (Vite) + Tailwind CSS dashboard for managing personal expenses. Talks to the [ExpenseTracker backend](../expensetracker-backend) for all data — this project holds no data of its own beyond in-memory UI state.
-
+A React (Vite) + Tailwind CSS dashboard for managing personal expenses. Talks to the deployed Express REST API for all expense operations including CRUD, filtering, statistics, and CSV export.
 Built as part of the TechnerLab Bootcamp (MERN Stack + AI Engineering) — Assignment 1.
+
+---
+
+## 🌐 Live Demo
+
+**Frontend**
+https://expense-tracker-frontend-nu-six.vercel.app
+
+**Backend API**
+https://expensetracker-backend-7io2.onrender.com
+
+---
+
+---
+
+## Screenshot
+
+### Dashboard
+
+![Dashboard](./public/ss.png)
 
 ---
 
@@ -79,26 +98,49 @@ expensetracker-frontend/
 
 ```bash
 npm install
+```
+
+Create a `.env` file:
+
+```env
+VITE_API_URL=http://localhost:3000/api/expenses
+```
+
+Run the development server:
+
+```bash
 npm run dev
 ```
 
-Runs on **http://localhost:5173** by default.
+Runs on:
 
-> ⚠️ The backend must be running first (default: `http://localhost:3000`) —
-> this app has no offline/mock mode, every page load fetches live data.
+```
+http://localhost:5173
+```
 
 ---
 
 ## Configuration
 
-The backend base URL is hardcoded in `src/api/expenseApi.js`:
+The frontend uses a Vite environment variable for the backend API URL.
 
-```javascript
-const BASE_URL = 'http://localhost:3000/api/expenses';
+Create a `.env` file in the project root:
+
+```env
+VITE_API_URL=http://localhost:3000/api/expenses
 ```
 
-If the backend is deployed or running on a different port, update this
-constant accordingly.
+For production (Vercel), set:
+
+```env
+VITE_API_URL=https://expensetracker-backend-7io2.onrender.com/api/expenses
+```
+
+The application reads the API URL using:
+
+```javascript
+const BASE_URL = import.meta.env.VITE_API_URL;
+```
 
 ---
 
@@ -193,9 +235,8 @@ fit comfortably even on small screens).
 ## Troubleshooting
 
 **"Failed to load expenses. Is the backend running?"**
-Confirm the backend is running and reachable at the URL in
-`api/expenseApi.js`. Check the browser console for CORS errors — if so,
-see the backend README's CORS troubleshooting section.
+If running locally, ensure the backend server is started.
+If using the deployed application, verify that the Render backend is awake and accessible.
 
 **Dark mode toggle doesn't change any colors**
 Confirm `darkMode: 'class'` is set in `tailwind.config.js`, then restart
