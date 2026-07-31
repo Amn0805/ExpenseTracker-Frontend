@@ -1,6 +1,6 @@
 // This is our ONLY file that talks to the backend.
 // Components never call fetch() directly — they always import functions from here.
-const BASE_URL = 'https://expensetracker-backend-7i02.onrender.com/api/expenses';
+const BASE_URL = import.meta.env.VITE_API_URL;
 // GET all expenses, with optional filters like { category: 'food', search: 'milk' }
 export async function getAllExpenses(filters = {}) {
   // Build a query string from the filters object, but skip any empty values
