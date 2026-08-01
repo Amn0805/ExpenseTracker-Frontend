@@ -121,27 +121,27 @@ function App() {
             </p>
           )}
 
-          {/* Stat cards — real data from stats */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between">
-              <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total expenses</p>
-                <p className="text-lg font-bold text-slate-800 dark:text-white">
-                  {stats?.totalExpenses ?? 0}
-                </p>
-              </div>
-              <Receipt size={20} className="text-slate-300 dark:text-slate-600" />
-            </div>
-            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between">
-              <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total spent</p>
-                <p className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                  PKR {(stats?.totalAmount ?? 0).toLocaleString()}
-                </p>
-              </div>
-              <Wallet size={20} className="text-teal-200 dark:text-teal-800" />
-            </div>
-          </div>
+{/* Stat cards — mobile pe 1 column, sm aur upar 2 columns */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between">
+    <div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total expenses</p>
+      <p className="text-lg font-bold text-slate-800 dark:text-white">
+        {stats?.totalExpenses ?? 0}
+      </p>
+    </div>
+    <Receipt size={20} className="text-slate-300 dark:text-slate-600" />
+  </div>
+  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between">
+    <div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Total spent</p>
+      <p className="text-lg font-bold text-teal-600 dark:text-teal-400">
+        PKR {(stats?.totalAmount ?? 0).toLocaleString()}
+      </p>
+    </div>
+    <Wallet size={20} className="text-teal-200 dark:text-teal-800" />
+  </div>
+</div>
 
           <FilterBar filters={filters} onFilterChange={handleFilterChange} />
 
