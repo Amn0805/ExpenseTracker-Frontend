@@ -23,32 +23,30 @@ function ExpenseForm({ onCreate }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();   // stops the page from refreshing (default browser form behavior)
+  e.preventDefault();
 
-     // Basic validation before sending anything to the backend
-    if (!formData.title.trim() || !formData.amount) {
-      setError('Title and amount are required.');
-      return;
-    }
+  if (!formData.title.trim() || !formData.amount) {
+    setError('Title and amount are required.');
+    return;
+  }
 
-    setError(''); // clear any old error
-    onCreate(formData); // hand the data up to App.jsx, which will call the API
+  setError('');
+  onCreate(formData);
 
-     // Submit button se focus hata do — warna list re-render hone ke baad
+  // Submit button se focus hata do — warna list re-render hone ke baad
   // browser button ko view mein rakhne ke liye page ko neeche scroll kar deta hai
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
   }
 
-     // Reset the form back to defaults after successful submit
-    setFormData({
-      title: '',
-      amount: '',
-      category: 'food',
-      date: new Date().toISOString().split('T')[0],
-      description: '',
-    });
-  };
+  setFormData({
+    title: '',
+    amount: '',
+    category: 'food',
+    date: new Date().toISOString().split('T')[0],
+    description: '',
+  });
+};
 
     // Common input styling reused across all fields — keeps the file shorter and consistent
   const inputClass =
