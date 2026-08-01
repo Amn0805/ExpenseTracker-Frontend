@@ -31,13 +31,16 @@ function ExpenseForm({ onCreate }) {
   }
 
   setError('');
-  onCreate(formData);
 
-  // Submit button se focus hata do — warna list re-render hone ke baad
-  // browser button ko view mein rakhne ke liye page ko neeche scroll kar deta hai
+  // Remove focus from whatever input/button is currently focused BEFORE
+  // calling onCreate. Browsers (especially mobile) try to keep the focused
+  // element visible when the page layout changes — blurring first stops
+  // that auto-scroll behavior at the source.
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
   }
+
+  onCreate(formData);
 
   setFormData({
     title: '',
