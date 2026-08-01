@@ -34,6 +34,12 @@ function ExpenseForm({ onCreate }) {
     setError(''); // clear any old error
     onCreate(formData); // hand the data up to App.jsx, which will call the API
 
+     // Submit button se focus hata do — warna list re-render hone ke baad
+  // browser button ko view mein rakhne ke liye page ko neeche scroll kar deta hai
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+
      // Reset the form back to defaults after successful submit
     setFormData({
       title: '',
