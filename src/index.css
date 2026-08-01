@@ -1,14 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
+/* These 3 lines pull in all of Tailwind's base styles, components, and utility classes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Browsers try to automatically adjust scroll position when content above
-   or around the viewport changes size (this is called "scroll anchoring").
-   That's exactly what's causing the jump when a new card (like Quick Stats)
-   suddenly appears after adding the first expense. Disabling it here stops
-   the browser from doing this automatic adjustment. */
-html {
-  overflow-anchor: none;
-}

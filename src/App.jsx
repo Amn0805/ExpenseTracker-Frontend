@@ -73,36 +73,16 @@ function App() {
     fetchStats();
   }, []);
 
-  // Called by ExpenseForm when the user submits a new expense
   const handleCreate = async (data) => {
-    // Remember exactly where the page was scrolled to before anything changes.
-    // Adding an expense updates the sidebar balance, the list, and the stats
-    // panel all at once — any of those can shift page height and cause the
-    // browser to jump the scroll position. We restore it manually below.
-    const scrollPosition = window.scrollY;
-
     await createExpense(data);
-    await fetchExpenses();
-    await fetchStats();
-
-    // Wait for the browser to finish painting the updated DOM, then force
-    // the scroll back to exactly where the user was.
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
-    });
+    fetchExpenses();
+    fetchStats();
   };
 
-  // Called by ExpenseList (via ExpenseItem) when the user clicks Delete
   const handleDelete = async (id) => {
-    const scrollPosition = window.scrollY;
-
     await deleteExpense(id);
-    await fetchExpenses();
-    await fetchStats();
-
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
-    });
+    fetchExpenses();
+    fetchStats();
   };
 
   const handleFilterChange = (key, value) => {

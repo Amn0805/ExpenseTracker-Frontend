@@ -23,33 +23,32 @@ function ExpenseForm({ onCreate }) {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();   // stops the page from refreshing (default browser form behavior)
 
-  if (!formData.title.trim() || !formData.amount) {
-    setError('Title and amount are required.');
-    return;
-  }
+     // Basic validation before sending anything to the backend
+    if (!formData.title.trim() || !formData.amount) {
+      setError('Title and amount are required.');
+      return;
+    }
 
-  setError('');
+    setError(''); // clear any old error
+    onCreate(formData); // hand the data up to App.jsx, which will call the API
 
-  // Remove focus from whatever input/button is currently focused BEFORE
-  // calling onCreate. Browsers (especially mobile) try to keep the focused
-  // element visible when the page layout changes — blurring first stops
-  // that auto-scroll behavior at the source.
+     // Submit button se focus hata do — warna list re-render hone ke baad
+  // browser button ko view mein rakhne ke liye page ko neeche scroll kar deta hai
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
   }
 
-  onCreate(formData);
-
-  setFormData({
-    title: '',
-    amount: '',
-    category: 'food',
-    date: new Date().toISOString().split('T')[0],
-    description: '',
-  });
-};
+     // Reset the form back to defaults after successful submit
+    setFormData({
+      title: '',
+      amount: '',
+      category: 'food',
+      date: new Date().toISOString().split('T')[0],
+      description: '',
+    });
+  };
 
     // Common input styling reused across all fields — keeps the file shorter and consistent
   const inputClass =
