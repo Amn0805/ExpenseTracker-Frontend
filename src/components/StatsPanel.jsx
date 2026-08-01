@@ -1,12 +1,10 @@
 import { categoryConfig } from '../utils/categoryConfig';
 
-// Builds the CSS conic-gradient string for the donut chart based on real category totals
-// e.g. "conic-gradient(#0d9488 0% 40%, #d97706 40% 100%)"
 function buildDonutGradient(byCategory) {
   const entries = Object.entries(byCategory);
   const total = entries.reduce((sum, [, data]) => sum + data.total, 0);
 
-  if (total === 0) return 'conic-gradient(#E2E8F0 0% 100%)'; // empty state — plain gray circle
+  if (total === 0) return 'conic-gradient(#E2E8F0 0% 100%)';
 
   let cumulative = 0;
   const stops = entries.map(([category, data]) => {
@@ -19,9 +17,8 @@ function buildDonutGradient(byCategory) {
 
   return `conic-gradient(${stops.join(', ')})`;
 }
-// Displays the spending summary fetched from /api/expenses/stats
+
 function StatsPanel({ stats }) {
-  // Don't render anything until stats have actually loaded
   if (!stats) return null;
 
   const { byCategory, highestExpense, lowestExpense } = stats;
@@ -29,23 +26,23 @@ function StatsPanel({ stats }) {
 
   return (
     <div className="space-y-4">
-      {/* Expense Summary — donut chart + per-category legend */}
-      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 transition-colors">
-        <h2 className="text-base font-semibold text-slate-800 dark:text-white mb-4">
+      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 lg:p-5 transition-colors">
+        <h2 className="text-sm lg:text-base font-semibold text-slate-800 dark:text-white mb-3 lg:mb-4">
           Expense summary
         </h2>
 
         {hasCategories ? (
-          <div className="flex items-center gap-4">
-            {/* The donut itself — a circle with a conic-gradient background and a white circle punched out of the middle */}
+          <div className="flex items-center gap-3 lg:gap-4">
+            {/* Smaller donut on mobile (w-12/h-12) than desktop (w-16/h-16) — was
+                taking up too much visual weight relative to the legend beside it */}
             <div
-              className="w-16 h-16 rounded-full shrink-0 relative"
+              className="w-12 h-12 lg:w-16 lg:h-16 rounded-full shrink-0 relative"
               style={{ background: buildDonutGradient(byCategory) }}
             >
               <div className="absolute inset-[22%] rounded-full bg-white dark:bg-slate-800" />
             </div>
 
-            <div className="flex-1 space-y-1.5 min-w-0">
+            <div className="flex-1 space-y-1 lg:space-y-1.5 min-w-0">
               {Object.entries(byCategory).map(([category, data]) => {
                 const config = categoryConfig[category] || categoryConfig.other;
                 return (
@@ -70,17 +67,16 @@ function StatsPanel({ stats }) {
         )}
       </div>
 
-      {/* Quick Stats — highest/lowest, comes straight from the backend /stats route */}
       {(highestExpense || lowestExpense) && (
-        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 transition-colors">
-          <h2 className="text-base font-semibold text-slate-800 dark:text-white mb-4">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 lg:p-5 transition-colors">
+          <h2 className="text-sm lg:text-base font-semibold text-slate-800 dark:text-white mb-3 lg:mb-4">
             Quick stats
           </h2>
           <div className="grid grid-cols-2 gap-3">
             {highestExpense && (
               <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-3">
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Highest</p>
-                <p className="text-base font-bold text-teal-600 dark:text-teal-400">
+                <p className="text-sm lg:text-base font-bold text-teal-600 dark:text-teal-400">
                   PKR {highestExpense.amount.toLocaleString()}
                 </p>
                 <p className="text-xs text-slate-400 dark:text-slate-500 truncate mt-0.5">
@@ -91,7 +87,7 @@ function StatsPanel({ stats }) {
             {lowestExpense && (
               <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-3">
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Lowest</p>
-                <p className="text-base font-bold text-teal-600 dark:text-teal-400">
+                <p className="text-sm lg:text-base font-bold text-teal-600 dark:text-teal-400">
                   PKR {lowestExpense.amount.toLocaleString()}
                 </p>
                 <p className="text-xs text-slate-400 dark:text-slate-500 truncate mt-0.5">
