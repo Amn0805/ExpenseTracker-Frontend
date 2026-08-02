@@ -1,26 +1,26 @@
 // This is our ONLY file that talks to the backend.
 // Components never call fetch() directly — they always import functions from here.
 const BASE_URL = import.meta.env.VITE_API_URL;
-// GET all expenses, with optional filters like { category: 'food', search: 'milk' }
+// GET all expenses from backend , with optional filters like { category: 'food', search: 'milk' }
 export async function getAllExpenses(filters = {}) {
-  // Build a query string from the filters object, but skip any empty values
+ //convert filters to url query string 
   // e.g. { category: 'food', search: '' } becomes "category=food"
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
-    if (value) params.append(key, value);
+    if (value) params.append(key, value);  //add filter in url
   });
 
   const queryString = params.toString(); // e.g. "category=food&search=milk"
   const url = queryString ? `${BASE_URL}?${queryString}` : BASE_URL;
 
-  const response = await fetch(url);
+  const response = await fetch(url);  //snd  get request to backend
   return response.json(); // convert the raw response into usable JS data
 }
 
-// GET the stats summary
+// GET the stats summary and call backend stats api 
 export async function getStats() {
-  const response = await fetch(`${BASE_URL}/stats`);
-  return response.json();
+  const response = await fetch(`${BASE_URL}/stats`);  //fetch expense from backend
+  return response.json(); 
 }
 
 // POST — create a new expense
@@ -55,5 +55,5 @@ export async function deleteExpense(id) {
 export function exportExpensesCSV() {
   // Simply opening this URL makes the browser download the file,
   // because the backend sends "Content-Disposition: attachment" headers
-  window.open(`${BASE_URL}/export`, '_blank');
+  window.open(`${BASE_URL}/export`, '_blank'); 
 }

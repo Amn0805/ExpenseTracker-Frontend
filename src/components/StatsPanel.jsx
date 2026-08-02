@@ -1,15 +1,15 @@
 import { categoryConfig } from '../utils/categoryConfig';
 
 function buildDonutGradient(byCategory) {
-  const entries = Object.entries(byCategory);
+  const entries = Object.entries(byCategory); //convert object into array
   const total = entries.reduce((sum, [, data]) => sum + data.total, 0);
 
   if (total === 0) return 'conic-gradient(#E2E8F0 0% 100%)';
 
-  let cumulative = 0;
+  let cumulative = 0;    //tracker
   const stops = entries.map(([category, data]) => {
     const start = cumulative;
-    const percent = (data.total / total) * 100;
+    const percent = (data.total / total) * 100; //calculate percentage of each category
     cumulative += percent;
     const color = categoryConfig[category]?.dot || '#94A3B8';
     return `${color} ${start}% ${cumulative}%`;
@@ -18,11 +18,12 @@ function buildDonutGradient(byCategory) {
   return `conic-gradient(${stops.join(', ')})`;
 }
 
+//receive stats from nackend 
 function StatsPanel({ stats }) {
   if (!stats) return null;
 
   const { byCategory, highestExpense, lowestExpense } = stats;
-  const hasCategories = Object.keys(byCategory).length > 0;
+  const hasCategories = Object.keys(byCategory).length > 0; //chk categories h ya nhi 
 
   return (
     <div className="space-y-4">
@@ -30,7 +31,7 @@ function StatsPanel({ stats }) {
         <h2 className="text-sm lg:text-base font-semibold text-slate-800 dark:text-white mb-3 lg:mb-4">
           Expense summary
         </h2>
-
+{/* if catoriges exsist then show dount chart otherwise show no expense yet */}
         {hasCategories ? (
           <div className="flex items-center gap-3 lg:gap-4">
             {/* Smaller donut on mobile (w-12/h-12) than desktop (w-16/h-16) — was
@@ -43,6 +44,7 @@ function StatsPanel({ stats }) {
             </div>
 
             <div className="flex-1 space-y-1 lg:space-y-1.5 min-w-0">
+              {/* make row for each category */}
               {Object.entries(byCategory).map(([category, data]) => {
                 const config = categoryConfig[category] || categoryConfig.other;
                 return (

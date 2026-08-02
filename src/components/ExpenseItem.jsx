@@ -40,6 +40,8 @@ function ExpenseItem({ expense, onDelete, onUpdated }) {
  // Called when user clicks "Save" — sends update to backend, then refreshes the list
   const handleSave = async () => {
     if (!editTitle.trim() || !editAmount) return; // don't save empty/invalid values
+
+    //call backend api 
     await updateExpense(expense.id, { title: editTitle, amount: Number(editAmount) });
     setIsEditing(false);
     onUpdated();  // tell App.jsx to fetch fresh data

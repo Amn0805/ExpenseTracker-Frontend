@@ -59,12 +59,13 @@ function App() {
   const fetchStats = async () => {
     try {
       const result = await getStats();
-      setStats(result.data);
+      setStats(result.data); //satate update 
     } catch (err) {
       console.error('Failed to load stats:', err);
     }
   };
 
+  //when filter change call api again 
   useEffect(() => {
     fetchExpenses();
   }, [filters]);
@@ -73,10 +74,11 @@ function App() {
     fetchStats();
   }, []);
 
+  //new expense create 
   const handleCreate = async (data) => {
     await createExpense(data);
-    fetchExpenses();
-    fetchStats();
+    fetchExpenses(); //latest list 
+    fetchStats();  //latest stats
   };
 
   const handleDelete = async (id) => {
