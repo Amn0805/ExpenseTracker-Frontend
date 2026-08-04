@@ -95,40 +95,33 @@ function App() {
     month: 'short', day: 'numeric', year: 'numeric',
   });
 
- return (
-  <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col lg:flex-row transition-colors overflow-x-hidden">
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col lg:flex-row transition-colors overflow-x-hidden">
 
-    <Sidebar
-      totalAmount={stats?.totalAmount || 0}
-      totalExpenses={stats?.totalExpenses || 0}
-      darkMode={darkMode}
-      onToggleDarkMode={toggleDarkMode}
-    />
+      <Sidebar
+        totalAmount={stats?.totalAmount || 0}
+        totalExpenses={stats?.totalExpenses || 0}
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
+      />
 
-    <div className="flex-1 p-4 lg:p-6 space-y-4">
-
-      {/* Header ab poori width ka hai, dono columns ke UPAR — is se dono
-          columns (list + form) neeche ek hi horizontal line se shuru hote hain,
-          aur right column ke upar wali khali space khatam ho jati hai */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-slate-800 dark:text-white">Dashboard</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Track and manage your expenses</p>
-        </div>
-        <span className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">{today}</span>
-      </div>
-
-      {error && (
-        <p className="text-sm text-rose-600 bg-rose-50 dark:bg-rose-900/30 dark:text-rose-400 px-4 py-3 rounded-xl">
-          {error}
-        </p>
-      )}
-
-      {/* Ab dono columns ek hi row mein hain, sab kuch header ke turant neeche
-          se shuru hoga — "Add expense" bhi "Total expenses" ke barabar top se aligned hoga */}
-      <div className="flex flex-col lg:flex-row gap-4">
+      <div className="flex-1 flex flex-col lg:flex-row gap-4 p-4 lg:p-6">
 
         <main className="flex-1 space-y-4 min-w-0">
+
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-slate-800 dark:text-white">Dashboard</h1>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Track and manage your expenses</p>
+            </div>
+            <span className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">{today}</span>
+          </div>
+
+          {error && (
+            <p className="text-sm text-rose-600 bg-rose-50 dark:bg-rose-900/30 dark:text-rose-400 px-4 py-3 rounded-xl">
+              {error}
+            </p>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between">
@@ -158,6 +151,8 @@ function App() {
               Expenses <span className="text-slate-400 font-normal">({expenses.length})</span>
             </p>
 
+            {/* Only shows on the very first load now — never again after that,
+                which is what was causing the scroll jump on every add/delete */}
             {loading && !hasLoadedOnce.current ? (
               <p className="text-center text-slate-400 dark:text-slate-500 py-10">Loading expenses...</p>
             ) : (
@@ -173,8 +168,7 @@ function App() {
 
       </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default App;
