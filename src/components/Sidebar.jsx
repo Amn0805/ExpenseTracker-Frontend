@@ -2,10 +2,13 @@ import { Wallet, Moon, Sun } from 'lucide-react';
 
 function Sidebar({ totalAmount, totalExpenses, darkMode, onToggleDarkMode }) {
   return (
-    <aside className="w-full lg:w-56 bg-white dark:bg-slate-800 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-700 border-t-4 border-t-teal-600 flex flex-col gap-3 lg:gap-4 p-4 lg:p-5 transition-colors">
+    // "lg:sticky lg:top-0 lg:h-screen" — sirf desktop (lg+) par sidebar ko
+    // viewport ki height jitna fixed rakhta hai aur scroll pe apni jagah chipka deta hai.
+    // Mobile par ye normal top bar hi rehta hai (koi sticky behavior nahi, zaroorat nahi).
+    // "lg:overflow-y-auto" agar sidebar ka content kabhi bara ho jaye to khud scroll kare,
+    // page ko scroll karne ki zaroorat na pade.
+    <aside className="w-full lg:w-56 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto bg-white dark:bg-slate-800 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-700 border-t-4 border-t-teal-600 flex flex-col gap-3 lg:gap-4 p-4 lg:p-5 transition-colors shrink-0">
 
-      {/* Top row on mobile: logo + compact icon-only dark mode toggle side by side.
-          On desktop this row just holds the logo — the toggle moves to the bottom. */}
       <div className="flex items-center justify-between lg:justify-start">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center shrink-0">
@@ -14,7 +17,6 @@ function Sidebar({ totalAmount, totalExpenses, darkMode, onToggleDarkMode }) {
           <span className="font-semibold text-slate-800 dark:text-white text-sm">ExpenseTracker</span>
         </div>
 
-        {/* Compact icon-only toggle — visible only on mobile (hidden from lg upward) */}
         <button
           onClick={onToggleDarkMode}
           className="lg:hidden w-9 h-9 shrink-0 flex items-center justify-center bg-teal-600 hover:bg-teal-700 text-white rounded-xl transition-colors"
@@ -24,7 +26,6 @@ function Sidebar({ totalAmount, totalExpenses, darkMode, onToggleDarkMode }) {
         </button>
       </div>
 
-      {/* Total balance — full width on mobile, natural width on desktop */}
       <div className="bg-teal-50 dark:bg-teal-900/20 rounded-2xl p-3 lg:p-4">
         <p className="text-xs text-teal-700/70 dark:text-teal-300/70 mb-1">Total balance</p>
         <p className="text-lg lg:text-xl font-bold text-teal-700 dark:text-teal-300">
@@ -35,7 +36,8 @@ function Sidebar({ totalAmount, totalExpenses, darkMode, onToggleDarkMode }) {
         </p>
       </div>
 
-      {/* Full toggle with label — visible only from lg upward, pushed to the bottom of the sidebar */}
+      {/* "lg:mt-auto" ab sidebar ki poori viewport-height ke bottom tak push karega,
+          taake button hamesha bottom pe fixed dikhe, scroll se unaffected */}
       <button
         onClick={onToggleDarkMode}
         className="hidden lg:flex w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-xl transition-colors items-center justify-center gap-2 lg:mt-auto"
